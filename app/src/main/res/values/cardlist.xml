@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cardlist">
+        <item>card1@Este es el tip #1 del juego de cartas coleccionables.</item>
+        <item>card2@Este es el tip #2 del juego de cartas coleccionables.</item>
+        <item>card3@Este es el tip #3 del juego de cartas coleccionables.</item>
+        <item>card4@Este es el tip #4 del juego de cartas coleccionables.</item>
+        <item>card5@Este es el tip #5 del juego de cartas coleccionables.</item>
+        <item>card6@Este es el tip #6 del juego de cartas coleccionables.</item>
+        <item>card7@Este es el tip #7 del juego de cartas coleccionables.</item>
+        <item>card8@Este es el tip #8 del juego de cartas coleccionables.</item>
+        <item>card9@Este es el tip #9 del juego de cartas coleccionables.</item>
+        <item>card10@Este es el tip #10 del juego de cartas coleccionables.</item>
+        <item>card11@Este es el tip #11 del juego de cartas coleccionables.</item>
+        <item>card12@Este es el tip #12 del juego de cartas coleccionables.</item>
+        <item>card13@Este es el tip #13 del juego de cartas coleccionables.</item>
+        <item>card14@Este es el tip #14 del juego de cartas coleccionables.</item>
+        <item>card15@Este es el tip #15 del juego de cartas coleccionables.</item>
+        <item>card16@Este es el tip #16 del juego de cartas coleccionables.</item>
+        <item>card17@Este es el tip #17 del juego de cartas coleccionables.</item>
+        <item>card18@Este es el tip #18 del juego de cartas coleccionables.</item>
+        <item>card19@Este es el tip #19 del juego de cartas coleccionables.</item>
+        <item>card20@Este es el tip #20 del juego de cartas coleccionables.</item>
+    </string-array>
+</resources>
