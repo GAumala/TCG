@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:gravity="center_vertical">
-    <TextView
-        android:text="Card #21"
-        android:textSize="21sp"
-        android:paddingLeft="20dp"
-        android:id="@+id/text"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:layout_height="60dp"
-        android:layout_width="match_parent" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:alpha="0.6"
-        android:paddingRight="10dp"
-        android:src="@drawable/ic_keyboard_arrow_right_black_36dp"/>
+<com.balysv.materialripple.MaterialRippleLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ripple"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <FrameLayout
+         android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:text="Card #21"
+            android:textSize="21sp"
+            android:paddingLeft="20dp"
+            android:id="@+id/text"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:layout_height="60dp"
+            android:layout_width="match_parent" />
+        <ImageView
+            android:layout_gravity="right|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.6"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_keyboard_arrow_right_black_36dp"/>
 
-</LinearLayout>
+    </FrameLayout>
+</com.balysv.materialripple.MaterialRippleLayout>

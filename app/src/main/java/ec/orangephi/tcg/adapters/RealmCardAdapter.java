@@ -50,15 +50,16 @@ public class RealmCardAdapter extends RecyclerView.Adapter<RealmCardAdapter.Card
     public void onBindViewHolder(CardHolder holder, int position) {
         final CardModel card = cards.get(position);
         holder.bindCard(card);
-        holder.text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               if(card.getQuantity() > 0){
-                   CardCollector collector = (CardCollector) v.getContext();
-                   collector.viewCard(card.getCode());
-               }
-            }
-        });
+        if(holder.ripple != null)
+            holder.ripple.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   if(card.getQuantity() > 0){
+                       CardCollector collector = (CardCollector) v.getContext();
+                       collector.viewCard(card.getCode());
+                   }
+                }
+            });
     }
 
     @Override
@@ -68,11 +69,13 @@ public class RealmCardAdapter extends RecyclerView.Adapter<RealmCardAdapter.Card
 
     public class CardHolder extends RecyclerView.ViewHolder{
         private TextView text;
+        private View ripple;
         CardModel card;
 
         public CardHolder(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.text);
+            ripple = itemView.findViewById(R.id.ripple);
         }
 
         public void bindCard(CardModel card){
