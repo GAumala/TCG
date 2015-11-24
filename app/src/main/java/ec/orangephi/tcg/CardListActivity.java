@@ -21,6 +21,7 @@ import ec.orangephi.tcg.adapters.RealmCardAdapter;
 import ec.orangephi.tcg.intefaces.CardCollector;
 import ec.orangephi.tcg.models.CardModel;
 import ec.orangephi.tcg.utils.DeckUtils;
+import ec.orangephi.tcg.utils.DividerItemDecoration;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 import io.realm.RealmResults;
@@ -86,6 +87,8 @@ public class CardListActivity extends AppCompatActivity implements CardCollector
         adapter = new RealmCardAdapter(results);
         RecyclerView listView = (RecyclerView) findViewById(R.id.listview);
         listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.addItemDecoration(
+                new DividerItemDecoration(this, null));
        listView.setAdapter(adapter);
 
 
