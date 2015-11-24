@@ -90,5 +90,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">1508182299487089</string>
     <string name="title_activity_card_view">CardViewActivity</string>
+    <string name="installFB">Por favor instala el app oficial de Facebook</string>
 </resources>
