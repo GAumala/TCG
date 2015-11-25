@@ -111,6 +111,9 @@ public class CardListActivity extends AppCompatActivity implements CardCollector
      * @return true si el codigo ingresado fue valido y se pudo agregar la carta.
      */
     private boolean addCardToCollection(String id){
+        if(id == null)
+            return false;
+
         CardModel card = cardRealm.where(CardModel.class).equalTo("code", id).findFirst();
         if(card != null) {
             cardRealm.beginTransaction();

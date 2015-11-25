@@ -1,6 +1,10 @@
 package ec.orangephi.tcg;
 
 import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -8,6 +12,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -17,6 +24,8 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnItemClickListener;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -25,7 +34,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
+import ec.orangephi.tcg.adapters.ShareOptionAdapter;
+import ec.orangephi.tcg.models.ShareOption;
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -63,6 +77,57 @@ public class ShareActivity extends AppCompatActivity {
             Log.d("ShareActivity", "Cant share photo");
             Toast.makeText(this, getResources().getText(R.string.installFB), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected ArrayList<Integer> getAvailableShareApps(){
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        boolean hasFB = false, hasTW = false;
+        ArrayList<Integer> list = new ArrayList<>();
+        PackageManager pm = getPackageManager();
+        List<ApplicationInfo> availableApps = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+        if (availableApps != null) {
+            for (ApplicationInfo targetApp : availableApps) {
+                String packageName = targetApp.packageName;
+                Log.d("Share activity", "package " + packageName);
+                if (packageName.equals("com.facebook.katana")) {
+                    hasFB = true;
+                } else if(packageName.equals("com.twitter.android")) {
+                    hasTW = true;
+                }
+            }
+        }
+
+        if(hasFB)
+            list.add(ShareOption.Facebook.ordinal());
+        if(hasTW)
+            list.add(ShareOption.Twitter.ordinal());
+        list.add(ShareOption.Other.ordinal());
+        return list;
+    }
+
+    protected void showShareDialog(final ArrayList<Integer> options, final Bitmap shareBMP){
+        ShareOptionAdapter adapter = new ShareOptionAdapter(options);
+        DialogPlus dialog = DialogPlus.newDialog(this)
+                .setAdapter(adapter)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        dialog.dismiss();
+                        switch (ShareOption.values()[options.get(position-1)]){
+                            case Facebook:
+                                sharePhotoFB(shareBMP);
+                                break;
+                            case Twitter:
+                                sharePhotoTW(shareBMP);
+                        }
+                    }
+                })
+                .setGravity(Gravity.CENTER)
+                .setCancelable(true)
+                .setHeader(R.layout.share_header)
+                .create();
+        dialog.show();
     }
 
     protected void sharePhotoTW(Bitmap bmp){
