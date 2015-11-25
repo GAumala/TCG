@@ -123,6 +123,7 @@ public class IntentIntegrator {
     private static final String BS_PACKAGE = "com.google.zxing.client.android";
     private static final String BSPLUS_PACKAGE = "com.srowen.bs.android";
     private static final String GOGGLES_PACKAGE = "com.google.android.apps.unveil";
+    private static final String QR_DROID = "la.droid.qr";
 
     // supported barcode formats
     public static final Collection<String> PRODUCT_CODE_TYPES = list("UPC_A", "UPC_E", "EAN_8", "EAN_13", "RSS_14");
@@ -139,7 +140,8 @@ public class IntentIntegrator {
             BSPLUS_PACKAGE,             // Barcode Scanner+
             BSPLUS_PACKAGE + ".simple", // Barcode Scanner+ Simple
             BS_PACKAGE,                  // Barcode Scanner
-            GOGGLES_PACKAGE             // Google Goggles
+            GOGGLES_PACKAGE,             // Google Goggles
+            QR_DROID                    // QR Droid
             // What else supports this intent?
     );
 
