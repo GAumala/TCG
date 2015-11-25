@@ -25,7 +25,7 @@ public class CardViewActivity extends ShareActivity {
                 Bitmap bmp = ((BitmapDrawable)ContextCompat.getDrawable(CardViewActivity.this, R.drawable.ajna1)).getBitmap();
                 //sharePhotoFB(bmp);
 
-                showShareDialog(getAvailableShareApps(), bmp);
+                showShareDialog(getAvailableShareApps(), bmp, "Mira mi nueva carta");
             }
         });
     }

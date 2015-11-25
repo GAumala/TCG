@@ -64,6 +64,11 @@ public class ShareActivity extends AppCompatActivity {
         Fabric.with(this, new TwitterCore(authConfig), new TweetComposer());
     }
 
+
+    /**
+     * Comparte un bitmap con Facebook.
+     * @param image Bitmap a compartir
+     */
     protected void sharePhotoFB(Bitmap image){
         if(shareDialog.canShow(SharePhotoContent.class)) {
             SharePhoto photo = new SharePhoto.Builder()
@@ -79,6 +84,12 @@ public class ShareActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Consulta todas las aplicaciones instaladas en el dispositivo para saber si hay apps oficiales
+     * con las cuales se puede compartir mejor las fotos.
+     * @return Una lista de enteros que representan a los elementos del enum ShareOptions para
+     * saber que apps estan instaladas.
+     */
     protected ArrayList<Integer> getAvailableShareApps(){
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -106,7 +117,8 @@ public class ShareActivity extends AppCompatActivity {
         return list;
     }
 
-    protected void showShareDialog(final ArrayList<Integer> options, final Bitmap shareBMP){
+    protected void showShareDialog(final ArrayList<Integer> options, final Bitmap shareBMP,
+                                   final String caption){
         ShareOptionAdapter adapter = new ShareOptionAdapter(options);
         DialogPlus dialog = DialogPlus.newDialog(this)
                 .setAdapter(adapter)
@@ -119,7 +131,10 @@ public class ShareActivity extends AppCompatActivity {
                                 sharePhotoFB(shareBMP);
                                 break;
                             case Twitter:
-                                sharePhotoTW(shareBMP);
+                                sharePhotoTW(shareBMP, caption);
+                                break;
+                            case Other:
+                                sharePhotoOther(shareBMP, caption);
                         }
                     }
                 })
@@ -129,8 +144,40 @@ public class ShareActivity extends AppCompatActivity {
                 .create();
         dialog.show();
     }
+    /**
+     * Comprime un bitmap en background y lo comparte enviando un Intent a cualquier app instalada
+     * que pueda recibir una imagen
+     * @param image El bitmap a compartir
+     * @param caption text opcional a compartir con la imagen
+     */
+    protected void sharePhotoOther(Bitmap image, final String caption){
+        pendingTask = new AsyncTask<Bitmap, Void, Uri>() {
+            @Override
+            protected Uri doInBackground(Bitmap... params) {
+                return compressBitmapToUri(params[0]);
+            }
 
-    protected void sharePhotoTW(Bitmap bmp){
+            @Override
+            protected void onPostExecute(Uri uri) {
+                pendingTask = null;
+                if(uri != null) {
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType("image/jpeg");
+                    share.putExtra(Intent.EXTRA_STREAM, uri);
+                    share.putExtra(Intent.EXTRA_TEXT, caption);
+                    startActivity(Intent.createChooser(share, getResources().getString(R.string.header_title)));
+                }
+            }
+        };
+        pendingTask.execute(image);
+
+    }
+    /**
+     * Comprime un bitmap en background y lo comparte con Twitter.
+     * @param bmp El bitmap a compartir
+     * @param caption text opcional a compartir con la imagen
+     */
+    protected void sharePhotoTW(Bitmap bmp, final String caption){
         /*
         Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
                 "://" + getResources().getResourcePackageName(drawable)
@@ -140,17 +187,7 @@ public class ShareActivity extends AppCompatActivity {
         pendingTask = new AsyncTask<Bitmap, Void, Uri>() {
             @Override
             protected Uri doInBackground(Bitmap... params) {
-                try {
-                    OutputStream out = new FileOutputStream(Environment.getExternalStorageDirectory() + tempIMG);
-                    params[0].compress(Bitmap.CompressFormat.PNG, 100, out);
-                    out.flush();
-                    out.close();
-                    return Uri.parse(Environment.getExternalStorageDirectory() + tempIMG);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
+                return compressBitmapToUri(params[0]);
             }
 
             @Override
@@ -159,7 +196,7 @@ public class ShareActivity extends AppCompatActivity {
                 if(uri != null) {
                     Log.d("ShareActivity", uri.toString());
                     TweetComposer.Builder builder = new TweetComposer.Builder(ShareActivity.this)
-                            .text("just setting up my Fabric.")
+                            .text(caption)
                             .image(uri);
                     builder.show();
                 }
@@ -169,6 +206,24 @@ public class ShareActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Comprime un bitmap a un archivo temporar y devuelve el URI del archivo. Esta operacion
+     * es muy pesada por lo cual debe de llamarse en un background thread.
+     * @param bmp Bitmap a comprimir y compartir
+     * @return Uri del Bitmap en el archivo temporal listo para ser compartido.
+     */
+    private Uri compressBitmapToUri(Bitmap bmp){
+        try {
+            OutputStream out = new FileOutputStream(Environment.getExternalStorageDirectory() + tempIMG);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+            return Uri.parse(Environment.getExternalStorageDirectory() + tempIMG);
+        } catch (IOException ex){
+            ex.printStackTrace();
+            return null;
+        }
+}
     @Override
     protected void onStop() {
         if(pendingTask != null)
