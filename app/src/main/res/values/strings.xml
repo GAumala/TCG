@@ -95,4 +95,5 @@
     <string name="installFB">Por favor instala el app oficial de Facebook</string>
     <string name="other">Otro</string>
     <string name="header_title">Compartir carta con&#8230;</string>
+    <string name="new_card">Has conseguido una nueva carta!</string>
 </resources>

@@ -99,7 +99,10 @@ public class CardListActivity extends AppCompatActivity implements CardCollector
           // handle scan result
             String code = scanResult.getContents();
             Log.d("CardListActivty", "scanned: " + code);
-            if(addCardToCollection(code))
+            CardModel newCard = addCardToCollection(code);
+            if(newCard != null && newCard.getQuantity() == 1)
+                viewNewCard(code);
+            else if(newCard != null)
                 viewCard(code);
         }
     }
@@ -110,9 +113,9 @@ public class CardListActivity extends AppCompatActivity implements CardCollector
      * @param id id de la carta a agregar a la coleccion.
      * @return true si el codigo ingresado fue valido y se pudo agregar la carta.
      */
-    private boolean addCardToCollection(String id){
+    private CardModel addCardToCollection(String id){
         if(id == null)
-            return false;
+            return null;
 
         CardModel card = cardRealm.where(CardModel.class).equalTo("code", id).findFirst();
         if(card != null) {
@@ -121,9 +124,8 @@ public class CardListActivity extends AppCompatActivity implements CardCollector
             cardRealm.commitTransaction();
 
             adapter.notifyDataSetChanged();
-            return true;
         }
-        return false;
+        return card;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -167,6 +169,13 @@ public class CardListActivity extends AppCompatActivity implements CardCollector
     public void viewCard(String code) {
         Intent intent = new Intent(this, CardViewActivity.class);
         intent.putExtra(CardViewActivity.CardCode, code);
+        startActivity(intent);
+    }
+
+    public void viewNewCard(String code) {
+        Intent intent = new Intent(this, CardViewActivity.class);
+        intent.putExtra(CardViewActivity.CardCode, code);
+        intent.putExtra(CardViewActivity.NewCard, true);
         startActivity(intent);
     }
 }
