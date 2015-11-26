@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.twitter.sdk.android.tweetcomposer.Card;
+
 import ec.orangephi.tcg.R;
 import ec.orangephi.tcg.intefaces.CardCollector;
 
@@ -44,8 +46,16 @@ public class CardPageFragment extends Fragment {
                     collector.viewCard(getArguments().getString(CardCode));
                 }
             });
-        } else
-        iv.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.blocked));
+        } else {
+            iv.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.blocked));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CardCollector collector = (CardCollector)getActivity();
+                    collector.showNewCardDialog();
+                }
+            });
+        }
 
 
         return rootView;

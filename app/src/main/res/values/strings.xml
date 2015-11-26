@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TCG</string>
+    <string name="app_name">Winter Cards</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -96,4 +96,9 @@
     <string name="other">Otro</string>
     <string name="header_title">Compartir carta con&#8230;</string>
     <string name="new_card">Has conseguido una nueva carta!</string>
+    <string name="collection">Mi Colección</string>
+    <string name="bloqueado">Carta bloqueada</string>
+    <string name="ok">OK</string>
+    <string name="desbloquear">Por favor ingresa un nuevo código QR con el botón de la esquina
+    inferior derecha para desbloquear nuevas cartas.</string>
 </resources>

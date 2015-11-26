@@ -10,4 +10,6 @@ public interface CardCollector {
      * @param code el codigo de la carta a mostrar.
      */
     void viewCard(String code);
+
+    void showNewCardDialog();
 }

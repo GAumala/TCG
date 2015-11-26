@@ -1,8 +1,13 @@
 package ec.orangephi.tcg;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.drawable.AnimatedStateListDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +15,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import ec.orangephi.tcg.ZXing.IntentIntegrator;
 import ec.orangephi.tcg.ZXing.IntentResult;
 import ec.orangephi.tcg.adapters.RealmCardAdapter;
+import ec.orangephi.tcg.fragments.AdFragment;
+import ec.orangephi.tcg.fragments.NewCardsDialog;
 import ec.orangephi.tcg.intefaces.CardCollector;
 import ec.orangephi.tcg.models.CardModel;
 import ec.orangephi.tcg.utils.DeckUtils;
@@ -44,9 +52,12 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pager_card_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle(getString(R.string.collection));
+
+        ImageView ad = (ImageView) findViewById(R.id.frutanga);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            ad.setVisibility(View.GONE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -135,11 +146,26 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
         }
         return card;
     }
+
+    public void showAdDialog(View view){
+            FragmentManager fm = getSupportFragmentManager();
+            AdFragment dialog = new AdFragment();
+            dialog.show(fm, "fragment_ad");
+
+    }
     @Override
     public void viewCard(String code) {
         Intent intent = new Intent(this, CardViewActivity.class);
         intent.putExtra(CardViewActivity.CardCode, code);
         startActivity(intent);
+    }
+
+    @Override
+    public void showNewCardDialog(){
+            FragmentManager fm = getSupportFragmentManager();
+            NewCardsDialog editNameDialog = new NewCardsDialog();
+            editNameDialog.show(fm, "fragment_new_cards");
+
     }
 
     public void viewNewCard(String code) {

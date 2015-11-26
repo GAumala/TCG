@@ -172,6 +172,11 @@ public class CardListActivity extends AppCompatActivity implements CardCollector
         startActivity(intent);
     }
 
+    @Override
+    public void showNewCardDialog() {
+
+    }
+
     public void viewNewCard(String code) {
         Intent intent = new Intent(this, CardViewActivity.class);
         intent.putExtra(CardViewActivity.CardCode, code);

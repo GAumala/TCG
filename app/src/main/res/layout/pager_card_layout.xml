@@ -3,10 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-            android:layout_height="?attr/actionBarSize" android:layout_width="match_parent"
-            app:layout_collapseMode="pin" app:popupTheme="@style/AppTheme.PopupOverlay"
-            />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,6 +18,17 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frutanga"
+        android:src="@drawable/don_german_anim"
+        android:onClick="showAdDialog"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_gravity="top"/>
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"

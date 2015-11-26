@@ -2,29 +2,29 @@
 <resources>
     6902
     <string-array name="cardlist">
-        <item>1323@Ten cuidado con el lodo y los charcos que encuentres al entrar y salir del campus.</item>
+        <item>8983@Ten cuidado con el lodo y los charcos que encuentres al entrar y salir del campus.</item>
         <item>3163@Trata de usar una máquina secadora en lugar de tender la ropa porque se puede mojar</item>
-        <item>8983@Siempre lleva un paraguas o impermeable contigo</item>
-        <item>1657@El agua empozada trae mosquitos, evita cualquier pozo de agua que encuentres en el campus.</item>
+        <item>1323@Siempre lleva un paraguas o impermeable contigo</item>
+        <item>6902@El agua empozada trae mosquitos, evita cualquier pozo de agua que encuentres en el campus.</item>
         <item>2742@Procura llevar contigo una toalla de mano, te puede sacar de cualquier apuro.</item>
-        <item>6902@Siempre lleva una funda para proteger tus objetos en caso de emergencia</item>
-        <item>2936@Lava tus manos constantemente o usa gel desinfectante para evitar la propagación de bacterias.</item>
-        <item>9204@Evita cambios bruscos de temperatura, si vienes caminando en el sol procura refrescarte antes de entrar al salón de
+        <item>1657@Siempre lleva una funda para proteger tus objetos en caso de emergencia</item>
+        <item>9204@Lava tus manos constantemente o usa gel desinfectante para evitar la propagación de bacterias.</item>
+        <item>2936@Evita cambios bruscos de temperatura, si vienes caminando en el sol procura refrescarte antes de entrar al salón de
             clases con aire acondicionado.\n\nLos extremos de temperatura son perjudiciales en esta época del año. Por eso, se debe tomar
             en cuenta que la temperatura de la vivienda debe estar en torno a los 22º C y es aconsejable asimismo ventilar periódicamente los ambientes.</item>
 
-        <item>8816@Cuidar de la alimentación, modifica la temperatura de las comidas con alimentos tibios y añadir a la dieta una variedad de frutos secos.\n\n
+        <item>2250@Cuidar de la alimentación, modifica la temperatura de las comidas con alimentos tibios y añadir a la dieta una variedad de frutos secos.\n\n
             Para combatir los malos efectos del invierno es necesario aumentar la ingesta de vitaminas A, C Y D mediante los alimentos apropiados (cítricos, verduras
             de hoja, lácteos, etc). La vitamina A evita la resequedad del cutis y las grietas en los labios. Por su parte, la vitamina C ayuda a aumentar las defensas y a prevenir resfríos.</item>
         <item>8116@Aumentar la ingesta de vitaminas\n\nPara combatir los malos efectos del invierno es necesario aumentar la ingesta de vitaminas A, C Y D
             mediante los alimentos apropiados (cítricos, verduras de hoja, lácteos, etc). La vitamina A evita la resequedad del cutis y las grietas en
             los labios. Por su parte, la vitamina C ayuda a aumentar las defensas y a prevenir resfríos.</item>
-        <item>2250@Lleva contigo repelente para mosquitos, sobre todo si tu salida de clases es tarde.</item>
-        <item>8948@Usa zapatos adecuados para lluvias y lodo, para no resbalar en las diferentes superficies.</item>
+        <item>8816@Lleva contigo repelente para mosquitos, sobre todo si tu salida de clases es tarde.</item>
+        <item>4563@Usa zapatos adecuados para lluvias y lodo, para no resbalar en las diferentes superficies.</item>
         <item>3018@Si le tráfico afecta tu llegada a tiempo a clases, levántate más temprano para evitar apuros.</item>
-        <item>4563@Lleva contigo una blusa, camiseta u otra prenda de vestir que te sirva en caso de que tu ropa se moje en la lluvia.</item>
-        <item>5870@Si tienes gripe procura utilizar pañuelos desechables, estornuda tapando tu boca con el codo y así evitas contagiar a tus compañeros.</item>
-        <item>5688@Si no tienes un paraguas o impermeable a mano una funda de basura puede servirte para protegerte hasta llegar a la parada del bus.</item>
+        <item>8948@Lleva contigo una blusa, camiseta u otra prenda de vestir que te sirva en caso de que tu ropa se moje en la lluvia.</item>
+        <item>5688@Si tienes gripe procura utilizar pañuelos desechables, estornuda tapando tu boca con el codo y así evitas contagiar a tus compañeros.</item>
+        <item>5870@Si no tienes un paraguas o impermeable a mano una funda de basura puede servirte para protegerte hasta llegar a la parada del bus.</item>
 
         <item>6549@Si el clima esta frío pueden llevar con ustedes un termo con café o té caliente</item>
     </string-array>
