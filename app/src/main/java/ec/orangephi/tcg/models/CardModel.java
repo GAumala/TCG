@@ -11,13 +11,24 @@ public class CardModel extends RealmObject{
     private String code;
     private int index;
     private int quantity;
+    private int drawable;
+
+    public int getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(int drawable) {
+        this.drawable = drawable;
+    }
+
     private String text;
 
-    public CardModel(String code, String text, int quantity, int index) {
+    public CardModel(String code, String text, int quantity, int index, int drawable) {
         this.code = code;
         this.text = text;
         this.quantity = quantity;
         this.index = index;
+        this.drawable = drawable;
     }
 
     public CardModel(){

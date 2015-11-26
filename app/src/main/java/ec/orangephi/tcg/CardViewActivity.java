@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import ec.orangephi.tcg.models.CardModel;
+import ec.orangephi.tcg.utils.DeckUtils;
 import io.realm.Realm;
 
 public class CardViewActivity extends ShareActivity {
@@ -27,20 +28,26 @@ public class CardViewActivity extends ShareActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView textView = (TextView) findViewById(R.id.text_view);
+
         setSupportActionBar(toolbar);
         cardRealm = Realm.getInstance(this);
         String code = getIntent().getStringExtra(CardCode);
-        CardModel selectedCard = cardRealm.where(CardModel.class).equalTo("code", code).findFirst();
-
+        final CardModel selectedCard = cardRealm.where(CardModel.class).equalTo("code", code).findFirst();
+        final int index = selectedCard.getIndex();
         final String title =  "#" + selectedCard.getIndex();
+        final String text = selectedCard.getText();
+
         CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         toolbarLayout.setTitle("#" + selectedCard.getIndex());
+        textView.setText(text);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap bmp = ((BitmapDrawable) ContextCompat.getDrawable(CardViewActivity.this, R.drawable.ajna1)).getBitmap();
+                Bitmap bmp = ((BitmapDrawable) ContextCompat.getDrawable(CardViewActivity.this,
+                        DeckUtils.getDrawableFromIndex(index))).getBitmap();
                 showShareDialog(getAvailableShareApps(), bmp, "Carta " + title);
             }
         });
