@@ -2,9 +2,11 @@ package ec.orangephi.tcg;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,8 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
     private Realm cardRealm;
     private RealmAsyncTask activeTask;
     private DiscreteSeekBar seekBar;
+    AnimationDrawable adAnimation;
+
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -69,6 +73,7 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
         cardRealm = Realm.getInstance(this);
         initCards();
         initSeekBar();
+        startAd();
     }
     /**
      * Inicializa la baraja por defecto de manera asincrona. Despues de que la baraja este lista en
@@ -206,6 +211,24 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
             NewCardsDialog editNameDialog = new NewCardsDialog();
             editNameDialog.show(fm, "fragment_new_cards");
 
+    }
+
+    private void startAd(){
+        try {
+            ImageView adImage = (ImageView) findViewById(R.id.frutanga);
+            adImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.don_german_anim));
+            adAnimation = (AnimationDrawable) adImage.getBackground();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus && adAnimation!= null && !adAnimation.isRunning())
+            adAnimation.start();
     }
 
     public void viewNewCard(String code) {

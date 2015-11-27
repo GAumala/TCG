@@ -39,7 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/frutanga"
-        android:src="@drawable/don_german_anim"
         android:onClick="showAdDialog"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
