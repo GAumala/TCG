@@ -1,5 +1,6 @@
 package ec.orangephi.tcg;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -78,6 +79,20 @@ public class CardViewActivity extends ShareActivity {
             player.release();
             player = null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(getIntent().getBooleanExtra(NewCard, false)){
+            String code = getIntent().getStringExtra(CardCode);
+            CardModel card = cardRealm.where(CardModel.class).equalTo("code", code).findFirst();
+            Intent intent = new Intent(this, CardPageActivity.class);
+            intent.putExtra(CardPageActivity.FirstPage, card.getIndex() - 1);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            finish();
+        }
+        super.onBackPressed();
     }
 
     @Override

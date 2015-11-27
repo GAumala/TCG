@@ -2,30 +2,25 @@ package ec.orangephi.tcg;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.AnimatedStateListDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import ec.orangephi.tcg.ZXing.IntentIntegrator;
 import ec.orangephi.tcg.ZXing.IntentResult;
 import ec.orangephi.tcg.adapters.RealmCardAdapter;
 import ec.orangephi.tcg.fragments.AdFragment;
+import ec.orangephi.tcg.fragments.CardPageFragment;
 import ec.orangephi.tcg.fragments.NewCardsDialog;
 import ec.orangephi.tcg.intefaces.CardCollector;
 import ec.orangephi.tcg.models.CardModel;
 import ec.orangephi.tcg.utils.DeckUtils;
-import ec.orangephi.tcg.utils.DividerItemDecoration;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 import io.realm.RealmResults;
@@ -34,8 +29,10 @@ import io.realm.RealmResults;
  * Created by gesuwall on 11/26/15.
  */
 public class CardPageActivity extends ShareActivity implements CardCollector{
+    public static String FirstPage = "CardPageActivity.FirstPage";
     private Realm cardRealm;
     private RealmAsyncTask activeTask;
+    private DiscreteSeekBar seekBar;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -71,6 +68,7 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
         });
         cardRealm = Realm.getInstance(this);
         initCards();
+        initSeekBar();
     }
     /**
      * Inicializa la baraja por defecto de manera asincrona. Despues de que la baraja este lista en
@@ -83,13 +81,13 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
                     public void onError(Exception e) {
                         Log.d("CardListActivity", e.getMessage());
                         activeTask = null;
-                        initListView();
+                        initViewPager();
                     }
 
                     @Override
                     public void onSuccess() {
                         activeTask = null;
-                        initListView();
+                        initViewPager();
                     }
                 });
     }
@@ -98,13 +96,36 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
      * Saca todas las cartas de Realm, crea el adapter y se lo coloca al RecycleView para mostrar
      * la coleccion en pantalla.
      */
-    private void initListView(){
+    private void initViewPager(){
         RealmResults<CardModel> results =  cardRealm.where(CardModel.class).findAllAsync();
         results.load();
 
         mPager = (ViewPager) findViewById(R.id.pager);
         adapter = new RealmCardAdapter(getSupportFragmentManager(), results);
         mPager.setAdapter(adapter);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(seekBar != null)
+                    seekBar.setProgress(position + 1);
+                else
+                    Log.d("CardPageActivty", "Can't update null seekbar");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        int firstPage = getIntent().getIntExtra(FirstPage, 0);
+        if(firstPage > 0)
+            mPager.setCurrentItem(firstPage);
 
 
     }
@@ -139,12 +160,31 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
             card.setQuantity(card.getQuantity() + 1);
             cardRealm.commitTransaction();
 
-            if(adapter != null)
-                adapter.notifyDataSetChanged();
-            else
-                Log.d("CardPageActivity", "cant update adapter");
         }
         return card;
+    }
+
+    private void initSeekBar(){
+        seekBar = (DiscreteSeekBar) findViewById(R.id.seekbar);
+        seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                if(mPager != null)
+                    mPager.setCurrentItem(seekBar.getProgress() - 1);
+                else
+                    Log.d("CardPageActivity", "cant update null Pager");
+            }
+        });
     }
 
     public void showAdDialog(View view){
@@ -173,5 +213,6 @@ public class CardPageActivity extends ShareActivity implements CardCollector{
         intent.putExtra(CardViewActivity.CardCode, code);
         intent.putExtra(CardViewActivity.NewCard, true);
         startActivity(intent);
+        finish();
     }
 }

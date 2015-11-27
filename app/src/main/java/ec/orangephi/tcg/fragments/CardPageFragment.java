@@ -26,6 +26,7 @@ public class CardPageFragment extends Fragment {
         this.drawable = drawable;
     }
 
+    private ImageView cardPicture;
     private int drawable;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,13 +34,29 @@ public class CardPageFragment extends Fragment {
         if (container == null)
             return null;
         drawable = getArguments().getInt(CardDrawable);
-        final int quantity = getArguments().getInt(CardQuantity);
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.card_page, container, false);
-        ImageView iv = (ImageView) rootView.findViewById(R.id.card_img);
+        cardPicture = (ImageView) rootView.findViewById(R.id.card_img);
+        setCardPicture();
+
+        return rootView;
+    }
+
+    /**
+     * Coloca la imagen de la carta. Si el usuario aun no tiene una copia de esta carta entonces
+     * se coloca una imagen de "bloqueado" de lo contrario se pone la imagen que corresponde. A las
+     * imagenes "bloqueadas" se les coloca un popup al hacer click, las demas van al activity que
+     * muestra el tip
+     */
+    private void setCardPicture(){
+        if(cardPicture == null){
+            Log.d("CardPageFragment", "WHOOPS! No picture");
+            return;
+        }
+        final int quantity = getArguments().getInt(CardQuantity);
         if(quantity > 0) {
-            iv.setImageDrawable(ContextCompat.getDrawable(getActivity(), drawable));
-            iv.setOnClickListener(new View.OnClickListener() {
+            cardPicture.setImageDrawable(ContextCompat.getDrawable(getActivity(), drawable));
+            cardPicture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     CardCollector collector = (CardCollector) getActivity();
@@ -47,8 +64,8 @@ public class CardPageFragment extends Fragment {
                 }
             });
         } else {
-            iv.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.blocked));
-            iv.setOnClickListener(new View.OnClickListener() {
+            cardPicture.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.blocked));
+            cardPicture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     CardCollector collector = (CardCollector)getActivity();
@@ -56,8 +73,6 @@ public class CardPageFragment extends Fragment {
                 }
             });
         }
-
-
-        return rootView;
     }
+
 }
